@@ -1,1 +1,3 @@
 # Algorithm_HidatoPuzzle
+
+HidatoPuzzle
