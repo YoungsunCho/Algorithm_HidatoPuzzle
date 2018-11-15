@@ -1,4 +1,4 @@
-#include <iostream>
+﻿#include <iostream>
 #include <fstream>
 #include <iterator>
 #include <vector>
@@ -6,18 +6,23 @@
 
 using namespace std;
 
+//height == number of rows
+//width == number of columns
 
 //넓이와 높이를 갱신하고 퍼즐을 리턴해 줌.
-int *inputPuzz(ifstream& input, int &width, int& height)
+int *inputPuzz(ifstream& input, int &height, int& width)
 {
 	int w, h, len;
-	input >> h>> w;
-	width=w;
-	height=h;
+	input >> h >> w;
+
+	height = h;
+	width = w;
+
 	len = w * h;
 	int *puzz = new int[len];
 	for (int i = 0; i < len; ++i) input >> puzz[i];
 
+	//1차원 배열 puzz를 리턴한다.
 	return puzz;
 }
 
@@ -46,12 +51,10 @@ void puzzManager(char* txtFile)
 
 	while (numOfPuzz--)
 	{
-		int w, h;
-		puzz = inputPuzz(input, w, h);
+		int h, w;
+		puzz = inputPuzz(input, h, w);
 		displayPuzz(puzz, w);
 	}
-
-
 
 	delete puzz;
 }
@@ -84,7 +87,7 @@ int main(){
 
   // solver에는 findStart함수 필요
   // width, height,
-  // 정답을 담고이쓴ㄴ 배열 하나가 더 필요함 그러고 마지막에 채워주는 식으로?
+  // 정답을 담고있는 배열 하나가 더 필요함 그러고 마지막에 채워주는 식으로?
   // solve(puzzle, width, height);
 
   return 0;
