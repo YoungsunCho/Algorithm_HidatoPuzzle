@@ -263,7 +263,7 @@ int *inputPuzz(ifstream& input, int &height, int& width)
 	return puzz;
 }
 
-//반복되는 벽 print문 함수
+// 반복되는 벽 print문 함수
 void printWall(int w) {
 	int wall_count = (w * 3) + 1;
 	while (wall_count--)
