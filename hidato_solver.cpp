@@ -1,4 +1,4 @@
-ï»¿#include <iostream>
+#include <iostream>
 #include <sstream>
 #include <cstdlib>
 #include <cstring>
@@ -6,58 +6,58 @@
 #include <malloc.h>
 using namespace std;
 
-// (x, y)ì ì„ ë‚˜íƒ€ë‚´ê¸°ìœ„í•œ Point í´ë˜ìŠ¤
+// (x, y)Á¡À» ³ªÅ¸³»±âÀ§ÇÑ Point Å¬·¡½º
 class Point {
 
 public:
 	int x, y;
 
-	//ìƒì„±ì
+	//»ı¼ºÀÚ
 	Point() : x(0), y(0) { }
 
 	Point(int _x, int _y) : x(_x), y(_y) { }
 }; // Point class end
 
 
-// valueì™€ neighborsì˜ ìœ ë¬´ë¥¼ ê°–ê³  ìˆëŠ” Element í´ë˜ìŠ¤
+// value¿Í neighborsÀÇ À¯¹«¸¦ °®°í ÀÖ´Â Element Å¬·¡½º
 class Element {
 
 public:
-	// í•´ë‹¹ì ì˜ ê°’ì´ë‹¤.
+	// ÇØ´çÁ¡ÀÇ °ªÀÌ´Ù.
 	int value;
-	// ì´ì›ƒë“¤ì€ ìµœëŒ€ 8ê°œë¥¼ ê°€ì§ˆ ìˆ˜ ìˆìœ¼ë©° ì´ˆê¸°ì„¤ì •ì€ ì „ë¶€ 0ìœ¼ë¡œ í•´ì¤€ë‹¤.
+	// ÀÌ¿ôµéÀº ÃÖ´ë 8°³¸¦ °¡Áú ¼ö ÀÖÀ¸¸ç ÃÊ±â¼³Á¤Àº ÀüºÎ 0À¸·Î ÇØÁØ´Ù.
 	bool neighbors[8] = { 0, };
 
-	// ìƒì„±ì
+	// »ı¼ºÀÚ
 	Element() { }
 
 }; // Element class end
 
 
-// íˆë‹¤í†  í¼ì¦ì„ í’€ê¸°ìœ„í•œ HidatoSolver í´ë˜ìŠ¤
+// È÷´ÙÅä ÆÛÁñÀ» Ç®±âÀ§ÇÑ HidatoSolver Å¬·¡½º
 class HidatoSolver {
 private:
-	// ë†’ì´, ë„“ì´, ì´ ê¸¸ì´ : width * height
-	// max = í¼ì¦ë§ˆì§€ë§‰ ê°’ì„ ì €ì¥í•˜ê¸° ìœ„í•¨
+	// ³ôÀÌ, ³ĞÀÌ, ÃÑ ±æÀÌ : width * height
+	// max = ÆÛÁñ¸¶Áö¸· °ªÀ» ÀúÀåÇÏ±â À§ÇÔ
 	int height, width, len, max;
 
-	// Elementë¥¼ ë‹´ì„ ë°°ì—´ ì„ ì–¸
+	// Element¸¦ ´ãÀ» ¹è¿­ ¼±¾ğ
 	Element* E_array;
 
-	// ì´ë¯¸ ìˆ«ìê°€ ë°°ì¹˜ë˜ì–´ìˆëŠ”ì§€ ì—¬ë¶€
+	// ÀÌ¹Ì ¼ıÀÚ°¡ ¹èÄ¡µÇ¾îÀÖ´ÂÁö ¿©ºÎ
 	bool* existed;
 
-	// 8ê°€ì§€ ë°©í–¥ ë‚˜íƒ€ë‚´ê¸° ìœ„í•œ directionë°°ì—´
+	// 8°¡Áö ¹æÇâ ³ªÅ¸³»±â À§ÇÑ direction¹è¿­
 	Point direction[8];
 
 public:
-	// ìƒì„±ì
+	// »ı¼ºÀÚ
 	HidatoSolver();
 
-	// ì†”ë²„ê°€ ê°€ì§€ê³  ìˆëŠ” methodë“¤ì´ê³  ì„¤ëª…ì€ ë°‘ì—ì„œ í•˜ê² ë‹¤.
-	// ì—¬ê¸°ì„œ ë©”ì¸ì—ì„œ ë¶ˆë¦¬ëŠ”ê±´ preprocessing, solve, checkSolution
-	// ë‚˜ë¨¸ì§€ 3ê°œëŠ” privateìœ¼ë¡œ ê°€ë„ ìƒê´€ì—†ë‹¤.
-	// ì¼ë‹¨ì€ ë³´ê¸° í¸í•˜ê²Œ í•œêµ°ë°ì— ëª¨ì•„ë‘ê² ë‹¤.
+	// ¼Ö¹ö°¡ °¡Áö°í ÀÖ´Â methodµéÀÌ°í ¼³¸íÀº ¹Ø¿¡¼­ ÇÏ°Ú´Ù.
+	// ¿©±â¼­ ¸ŞÀÎ¿¡¼­ ºÒ¸®´Â°Ç preprocessing, solve, checkSolution
+	// ³ª¸ÓÁö 3°³´Â privateÀ¸·Î °¡µµ »ó°ü¾ø´Ù.
+	// ÀÏ´ÜÀº º¸±â ÆíÇÏ°Ô ÇÑ±ºµ¥¿¡ ¸ğ¾ÆµÎ°Ú´Ù.
 	void preprocessing(int puzz[], int _height, int _width);
 	void solve(int puzz[]);
 	bool findStart(Point& p);
@@ -66,11 +66,11 @@ public:
 	void checkSolution(int puzz[]);
 };
 
-// ìƒì„±ì
+// »ı¼ºÀÚ
 HidatoSolver::HidatoSolver() {
 
-	// Point í´ë˜ìŠ¤ë¥¼ ì‚¬ìš©í•˜ì—¬ ê° ë°©í–¥ ì¡ì•„ì£¼ê¸°
-	// 0 ~ 8 : nw ~ se ì‹œê³„ë°©í–¥ìœ¼ë¡œ directionë°°ì—´ì— ì €ì¥
+	// Point Å¬·¡½º¸¦ »ç¿ëÇÏ¿© °¢ ¹æÇâ Àâ¾ÆÁÖ±â
+	// 0 ~ 8 : nw ~ se ½Ã°è¹æÇâÀ¸·Î direction¹è¿­¿¡ ÀúÀå
 	Point nw(-1, -1);  // NW
 	Point n(-1, 0);    // N
 	Point ne(-1, 1);   // NE
@@ -90,10 +90,10 @@ HidatoSolver::HidatoSolver() {
 	direction[7] = se;
 }
 
-// ì†”ë¸Œí•˜ê¸° ìœ„í•´ì„œ puzzleì„ ìš°ë¦¬ê°€ ì›í•˜ëŠ” í˜•íƒœë¡œ ë³€í™˜ì‹œí‚¤ëŠ” ê³¼ì •ì´ë‹¤.
+// ¼ÖºêÇÏ±â À§ÇØ¼­ puzzleÀ» ¿ì¸®°¡ ¿øÇÏ´Â ÇüÅÂ·Î º¯È¯½ÃÅ°´Â °úÁ¤ÀÌ´Ù.
 void HidatoSolver::preprocessing(int puzz[], int _height, int _width) {
 
-	// parameterë¡œ ë„˜ê²¨ì ¸ ì˜¨ ê²ƒì„ solver ë©¤ë²„ë³€ìˆ˜ì— ë„£ëŠ”ë‹¤.
+	// parameter·Î ³Ñ°ÜÁ® ¿Â °ÍÀ» solver ¸â¹öº¯¼ö¿¡ ³Ö´Â´Ù.
 	height = _height;
 	width = _width;
 	len = height * width;
@@ -101,46 +101,46 @@ void HidatoSolver::preprocessing(int puzz[], int _height, int _width) {
 	int index = 0;
 	max = 0;
 
-	// lenë§Œí¼ì˜ Elementì–´ë ˆì´ ì„ ì–¸
+	// len¸¸Å­ÀÇ Element¾î·¹ÀÌ ¼±¾ğ
 	E_array = new Element[len];
 	memset(E_array, 0, len * sizeof(Element));
 
-	// ì´ˆê¸° ì„¤ì •ëœ ìˆ«ì ë‹´ê¸°ìœ„í•œ ë°°ì—´ ì„ ì–¸
+	// ÃÊ±â ¼³Á¤µÈ ¼ıÀÚ ´ã±âÀ§ÇÑ ¹è¿­ ¼±¾ğ
 	existed = new bool[len + 1];
 	memset(existed, 0, len + 1);
 
-	// í¼ì¦ì„ ë°›ì•„ì„œ E_arrayì— ë‹´ê³ , ë¯¸ë¦¬ ë§Œë“¤ì–´ì§„ ìˆ«ìëŠ” existedì— ë‹´ê¸°
+	// ÆÛÁñÀ» ¹Ş¾Æ¼­ E_array¿¡ ´ã°í, ¹Ì¸® ¸¸µé¾îÁø ¼ıÀÚ´Â existed¿¡ ´ã±â
 	for (int i = 0; i < len; i++) {
-		// í¼ì¦ì„ ê·¸ëŒ€ë¡œ elementì— ì¶”ê°€
+		// ÆÛÁñÀ» ±×´ë·Î element¿¡ Ãß°¡
 		E_array[i].value = puzz[i];
 
-		// ë¯¸ë¦¬ ë§Œë“¤ì–´ì§„ ìˆ«ìë©´
+		// ¹Ì¸® ¸¸µé¾îÁø ¼ıÀÚ¸é
 		if (puzz[i] > 0)
 			existed[E_array[i].value] = true;
 
-		// ë§¥ìŠ¤ ê°’ change
+		// ¸Æ½º °ª change
 		if (puzz[i] > max)
 			max = puzz[i];
 	}
 }
 
-// í¼ì¦ì„ ê°€ì ¸ì™€ ì‹œì‘ì  ì°¾ê³  search ì‹œì‘
+// ÆÛÁñÀ» °¡Á®¿Í ½ÃÀÛÁ¡ Ã£°í search ½ÃÀÛ
 void HidatoSolver::solve(int puzz[]) {
 	Point start_point;
-	// ì‹œì‘ì ì´ ìˆìœ¼ë©´
+	// ½ÃÀÛÁ¡ÀÌ ÀÖÀ¸¸é
 	if (findStart(start_point) == true)
 		search(start_point, 2);
 }
 
-// ì‹œì‘ì  ì°¾ê³  start_pointì— ê°’ ì„¤ì •í•´ì£¼ê³ 
-// ëª»ì°¾ìœ¼ë©´ falseë¦¬í„´
+// ½ÃÀÛÁ¡ Ã£°í start_point¿¡ °ª ¼³Á¤ÇØÁÖ°í
+// ¸øÃ£À¸¸é false¸®ÅÏ
 bool HidatoSolver::findStart(Point& start_point) {
 	for (int i = 0; i < len; i++) {
-		// ì‹œì‘ì  ì°¾ìœ¼ë©´
-		// ì‹œì‘ì  ë¹¨ë¦¬ì°¾ê¸°.. í•˜ëŠ” ì•Œê³ ë¦¬ì¦˜ í•´ì„œ ì‹œê°„ ì¤„ì—¬ë„ ë ë“¯
+		// ½ÃÀÛÁ¡ Ã£À¸¸é
+		// ½ÃÀÛÁ¡ »¡¸®Ã£±â.. ÇÏ´Â ¾Ë°í¸®Áò ÇØ¼­ ½Ã°£ ÁÙ¿©µµ µÉµí
 		if (E_array[i].value == 1) {
-			// start_pointë¥¼ (x, y)ë¡œ ì„¤ì •í•˜ê³  í•¨ìˆ˜ì¢…ë£Œ
-			// xê°€ heightì¸ê±°ê³  yê°€ widthì¸ê±°ì„
+			// start_point¸¦ (x, y)·Î ¼³Á¤ÇÏ°í ÇÔ¼öÁ¾·á
+			// x°¡ heightÀÎ°Å°í y°¡ widthÀÎ°ÅÀÓ
 			start_point.x = (i % width);
 			start_point.y = (i / width);
 			return true;
@@ -149,32 +149,32 @@ bool HidatoSolver::findStart(Point& start_point) {
 	return false;
 }
 
-// orderì˜ ìˆœì„œ
+// orderÀÇ ¼ø¼­
 bool HidatoSolver::search(Point p, int order) {
 
-	// ëê¹Œì§€ ì°¾ìœ¼ë©´ ì¢…ë£Œ
+	// ³¡±îÁö Ã£À¸¸é Á¾·á
 	if (order == max) return true;
 
-	// í•´ë‹¹ ì ì— ì´ì›ƒì°¾ê¸°
-	// ë§Œì•½ì— ì´ì›ƒì´ ì´ë¯¸ ì°¾ì•˜ìœ¼ë©´ ì°¾ì„í•„ìš” ì—†ìŒ ë¶ˆí•„ìš”í•œ ì—°ì‚°ì„ í•˜ëŠ”ê±°ì§€ - í–¥í›„ ì•Œê³ ë¦¬ì¦˜ í–¥ìƒ
+	// ÇØ´ç Á¡¿¡ ÀÌ¿ôÃ£±â
+	// ¸¸¾à¿¡ ÀÌ¿ôÀÌ ÀÌ¹Ì Ã£¾ÒÀ¸¸é Ã£À»ÇÊ¿ä ¾øÀ½ ºÒÇÊ¿äÇÑ ¿¬»êÀ» ÇÏ´Â°ÅÁö - ÇâÈÄ ¾Ë°í¸®Áò Çâ»ó
 	getNeighbors(p);
 
-	// current_element ë ˆí¼ëŸ°ìŠ¤ë¡œ ì„ ì–¸
+	// current_element ·¹ÆÛ·±½º·Î ¼±¾ğ
 	Element* current_element = &E_array[p.x + width * p.y];
 	Point moved_p;
 
-	// ì¡´ì¬í•˜ëŠ” ìˆ«ìì¼ ê²½ìš°
+	// Á¸ÀçÇÏ´Â ¼ıÀÚÀÏ °æ¿ì
 	if (existed[order]) {
-		// 8 ë°©í–¥
+		// 8 ¹æÇâ
 		for (int i = 0; i < 8; i++) {
-			// ì´ì›ƒì´ ìˆëŠ”ì§€ í™•ì¸
+			// ÀÌ¿ôÀÌ ÀÖ´ÂÁö È®ÀÎ
 			if ((*current_element).neighbors[i]) {
-				// ì˜®ê²¨ì§„ ìœ„ì¹˜ ì„¤ì •
+				// ¿Å°ÜÁø À§Ä¡ ¼³Á¤
 				moved_p.x = p.x + direction[i].x;
 				moved_p.y = p.y + direction[i].y;
-				// ê·¸ ì´ì›ƒì´ order(ì´ë²ˆì— ë“¤ì–´ê°ˆ ìˆ«ì)ì™€ ê°™ìœ¼ë©´
+				// ±× ÀÌ¿ôÀÌ order(ÀÌ¹ø¿¡ µé¾î°¥ ¼ıÀÚ)¿Í °°À¸¸é
 				if (E_array[moved_p.x + width * moved_p.y].value == order) {
-					// recursiveí•˜ê²Œ í˜¸ì¶œ ë§ëŠ” ë‹µì´ ë‚˜ì˜¬ë•Œ ê¹Œì§€
+					// recursiveÇÏ°Ô È£Ãâ ¸Â´Â ´äÀÌ ³ª¿Ã¶§ ±îÁö
 					if (search(moved_p, order + 1))
 						return true;
 				}
@@ -183,18 +183,18 @@ bool HidatoSolver::search(Point p, int order) {
 		return false;
 	}
 
-	// ì¡´ì¬í•˜ì§€ ì•ŠëŠ” ìˆ«ìì¼ ê²½ìš°
+	// Á¸ÀçÇÏÁö ¾Ê´Â ¼ıÀÚÀÏ °æ¿ì
 	for (int i = 0; i < 8; i++) {
 		if ((*current_element).neighbors[i]) {
-			// ì˜®ê²¨ì§„ ìœ„ì¹˜ ì„¤ì •
+			// ¿Å°ÜÁø À§Ä¡ ¼³Á¤
 			moved_p.x = p.x + direction[i].x;
 			moved_p.y = p.y + direction[i].y;
-			// 0 ì¦‰, ë¹ˆì¹¸ì¼ ê²½ìš°
+			// 0 Áï, ºóÄ­ÀÏ °æ¿ì
 			if (E_array[moved_p.x + width * moved_p.y].value == 0) {
-				// ì¼ë‹¨ orderë¡œ ì„¤ì •ì„ í•œë‹¤ìŒ recursiveí•˜ê²Œ ìˆ˜í–‰
+				// ÀÏ´Ü order·Î ¼³Á¤À» ÇÑ´ÙÀ½ recursiveÇÏ°Ô ¼öÇà
 				E_array[moved_p.x + width * moved_p.y].value = order;
 				if (search(moved_p, order + 1)) return true;
-				// recoverí•˜ëŠ” ë¶€ë¶„ì´ë‹¤.
+				// recoverÇÏ´Â ºÎºĞÀÌ´Ù.
 				E_array[moved_p.x + width * moved_p.y].value = 0;
 			}
 		}
@@ -202,41 +202,41 @@ bool HidatoSolver::search(Point p, int order) {
 	return false;
 }
 
-// í•´ë‹¹ pointì˜ ì´ì›ƒë“¤ì„ ì°¾ì•„ì¤˜ì„œ elementì˜ neighborsì— ì €ì¥í•˜ëŠ” í•¨ìˆ˜
+// ÇØ´ç pointÀÇ ÀÌ¿ôµéÀ» Ã£¾ÆÁà¼­ elementÀÇ neighbors¿¡ ÀúÀåÇÏ´Â ÇÔ¼ö
 void HidatoSolver::getNeighbors(Point p) {
 
 	int x = p.x;
 	int y = p.y;
 	Point moved_p;
 
-	// ì´ì›ƒì„ ì°¾ì•„ì•¼í•  current_element, ë ˆí¼ëŸ°ìŠ¤ë¡œ ë°›ìŒ
+	// ÀÌ¿ôÀ» Ã£¾Æ¾ßÇÒ current_element, ·¹ÆÛ·±½º·Î ¹ŞÀ½
 	Element* current_element = &E_array[x + width * y];
 	//
 	Element temp;
 
-	// 8ê°€ì§€ ë°©í–¥
+	// 8°¡Áö ¹æÇâ
 	for (int i = 0; i < 8; i++) {
-		// í˜„ì¬ ì ì´ ê°ˆìˆ˜ ìˆëŠ” ê³³ì˜ ìœ„ì¹˜
+		// ÇöÀç Á¡ÀÌ °¥¼ö ÀÖ´Â °÷ÀÇ À§Ä¡
 		moved_p.x = x + direction[i].x;
 		moved_p.y = y + direction[i].y;
-		// ìœ„ì¹˜ì— í•´ë‹¹í•˜ëŠ” element
+		// À§Ä¡¿¡ ÇØ´çÇÏ´Â element
 		temp = E_array[moved_p.x + width * moved_p.y];
-		// ì´ì›ƒì´ ë§¤íŠ¸ë¦­ìŠ¤ë¥¼ ë²—ì–´ë‚˜ëŠ” ê²½ìš°
+		// ÀÌ¿ôÀÌ ¸ÅÆ®¸¯½º¸¦ ¹ş¾î³ª´Â °æ¿ì
 		if (moved_p.x < 0 || moved_p.y < 0 || moved_p.x >= width || moved_p.y >= height) continue;
-		// ë§¤íŠ¸ë¦­ìŠ¤ì•ˆì´ì§€ë§Œ ë²½ì¸ê²½ìš°
+		// ¸ÅÆ®¸¯½º¾ÈÀÌÁö¸¸ º®ÀÎ°æ¿ì
 		else if (temp.value < 0) continue;
-		// ê°€ëŠ¥í•œ ì´ì›ƒì´ë©´ trueë¡œ ì„¤ì •
+		// °¡´ÉÇÑ ÀÌ¿ôÀÌ¸é true·Î ¼³Á¤
 		else (*current_element).neighbors[i] = true;
 	}
 }
 
 
-// ìš°ë¦¬ê°€ ë§Œë“  ì†”ë£¨ì…˜ ì²´í¬
+// ¿ì¸®°¡ ¸¸µç ¼Ö·ç¼Ç Ã¼Å©
 void HidatoSolver::checkSolution(int puzz[]) {
 	for (int i = 0; i < len; i++) {
-		// ë¹ˆì¹¸ì´ë©´
+		// ºóÄ­ÀÌ¸é
 		if (puzz[i] == 0) {
-			// í•´ë‹¹ elementì˜ ê°’ì„ ì±„ì›Œë„£ê¸°
+			// ÇØ´ç elementÀÇ °ªÀ» Ã¤¿ö³Ö±â
 			puzz[i] = E_array[i].value;
 		}
 	}
@@ -246,7 +246,7 @@ void HidatoSolver::checkSolution(int puzz[]) {
 // height == number of rows
 // width == number of columns
 
-// ë„“ì´ì™€ ë†’ì´ë¥¼ ê°±ì‹ í•˜ê³  í¼ì¦ì„ ë¦¬í„´í•´ ì¤Œ.
+// ³ĞÀÌ¿Í ³ôÀÌ¸¦ °»½ÅÇÏ°í ÆÛÁñÀ» ¸®ÅÏÇØ ÁÜ.
 int *inputPuzz(ifstream& input, int &height, int& width)
 {
 	int w, h, len;
@@ -259,52 +259,52 @@ int *inputPuzz(ifstream& input, int &height, int& width)
 	int *puzz = new int[len];
 	for (int i = 0; i < len; ++i) input >> puzz[i];
 
-	// 1ì°¨ì› ë°°ì—´ puzzë¥¼ ë¦¬í„´í•œë‹¤.
+	// 1Â÷¿ø ¹è¿­ puzz¸¦ ¸®ÅÏÇÑ´Ù.
 	return puzz;
 }
 
-// ë°˜ë³µë˜ëŠ” ë²½ printë¬¸ í•¨ìˆ˜
+// ¹İº¹µÇ´Â º® print¹® ÇÔ¼ö
 void printWall(int w) {
 	int wall_count = (w * 3) + 1;
 	while (wall_count--)
-		cout << "â–’";
+		cout << "XX";
 	cout << endl;
 }
 
-// í¼ì¦ê³¼ ë„“ì´ë¥¼ ë°›ì•„ì„œ w x h ëª¨ì–‘ìœ¼ë¡œ í¼ì¦ ì¶œë ¥
+// ÆÛÁñ°ú ³ĞÀÌ¸¦ ¹Ş¾Æ¼­ w x h ¸ğ¾çÀ¸·Î ÆÛÁñ Ãâ·Â
 void displayPuzz(int puzz[], int w)
 {
 	int height = _msize(puzz) / sizeof(int);
 	printWall(w);
 	for (int i = 0; i < height; ++i)
 	{
-		// ê°’ì´ -1, ì¦‰ ë²½ì¼ ê²½ìš°ì˜ ì¶œë ¥
+		// °ªÀÌ -1, Áï º®ÀÏ °æ¿ìÀÇ Ãâ·Â
 		if (puzz[i] == -1) {
-			cout << "â–’";				
-			cout << "â–¨â–¨";
+			cout << "XX";				
+			cout << "XXXX";
 			if (i % w == w - 1) {
-				cout << "â–’" << endl;
+				cout << "XX" << endl;
 				printWall(w);
 			}
 			continue;
 		}
-		// ì‹œì‘ í•  ë•Œ í•˜ë‚˜ ì°ì–´ì£¼ê¸°
-		cout << "â–’";
-		// ë²½ì´ ì•„ë‹ˆê³   ê²½ìš° ì¶œë ¥
+		// ½ÃÀÛ ÇÒ ¶§ ÇÏ³ª Âï¾îÁÖ±â
+		cout << "XX";
+		// º®ÀÌ ¾Æ´Ï°í  °æ¿ì Ãâ·Â
 		if (puzz[i] == 0) {
 			cout << " ? " << " ";
 		}
 		else {
-			// ì‹­ì˜ ìë¦¬ì¼ ê²½ìš° ì¶œë ¥ í¬ë©§
+			// ½ÊÀÇ ÀÚ¸®ÀÏ °æ¿ì Ãâ·Â Æ÷¸ä
 			if ((puzz[i] / 10) >= 1)               
 				cout << " " << puzz[i] << " ";
-			// ì¼ì˜ ìë¦¬ì¼ ê²½ìš° ì¶œë ¥ í¬ë©§
+			// ÀÏÀÇ ÀÚ¸®ÀÏ °æ¿ì Ãâ·Â Æ÷¸ä
 			else
 				cout << " " << puzz[i] << "  ";
 		}
-		// ë§ˆì§€ë§‰ widthì¼ ê²½ìš° ì¶œë ¥
+		// ¸¶Áö¸· widthÀÏ °æ¿ì Ãâ·Â
 		if (i % w == w - 1){
-			cout << "â–’";
+			cout << "XX";
 			cout << endl;
 			printWall(w);
 		}
@@ -312,7 +312,7 @@ void displayPuzz(int puzz[], int w)
 }
 
 
-// í¼ì¦ ë§¤ë‹ˆì €
+// ÆÛÁñ ¸Å´ÏÀú
 void puzzManager(string txtFile)
 {
 	ifstream input;
@@ -324,25 +324,25 @@ void puzzManager(string txtFile)
 
 	while (numOfPuzz--)
 	{
-		// ì¼ë‹¨ ì´ ë¶€ë¶„ì´ ë©”ì¸ì´ë‹¤.
+		// ÀÏ´Ü ÀÌ ºÎºĞÀÌ ¸ŞÀÎÀÌ´Ù.
 		int h, w;
-		// input.txtë¡œë¶€í„° ì…ë ¥ ë°›ê¸°
+		// input.txt·ÎºÎÅÍ ÀÔ·Â ¹Ş±â
 		puzz = inputPuzz(input, h, w);
 
-		// ì†”ë²„ ìƒì„±
+		// ¼Ö¹ö »ı¼º
 		HidatoSolver solver;
-		// ë¬¸ì œ ì¶œë ¥
+		// ¹®Á¦ Ãâ·Â
 		cout << "-----------------------------------------input puzzle-------------------------------------------------" << endl;
 		displayPuzz(puzz, w);
 
-		// ì†”ë²„ê°€ í¼ì¦ì„ í’€ê¸°ìœ„í•œ ì „ì²˜ë¦¬ ê³¼ì •
+		// ¼Ö¹ö°¡ ÆÛÁñÀ» Ç®±âÀ§ÇÑ ÀüÃ³¸® °úÁ¤
 		solver.preprocessing(puzz, h, w);
-		// í¼ì¦í’€ê¸°
+		// ÆÛÁñÇ®±â
 		solver.solve(puzz);
-		// ì •ë‹µí™•ì¸
+		// Á¤´äÈ®ÀÎ
 		solver.checkSolution(puzz);
 
-		// í¼ì¦ ë³´ì—¬ì£¼ê¸°
+		// ÆÛÁñ º¸¿©ÁÖ±â
 		cout << "-----------------------------------------check solution-----------------------------------------------" << endl;
 		displayPuzz(puzz, w);
 	}
@@ -358,14 +358,14 @@ int main() {
 }
 
 /*
-1. findStart - ì•Œê³ ë¦¬ì¦˜ í–¥ìƒ ë°©ë²•
-2. search - getNeighbors - í•œë²ˆ í–ˆìœ¼ë©´ ë‹¤ì‹œ í•  í•„ìš” ì—†ìŒ ì¤‘ë³µí™•ì¸ ë°©ë²•
-3. point, element, HidatoSolver, puzzlemanager 4ê°œë¡œ ëª¨ë“ˆí™”ë°©ë²•
+1. findStart - ¾Ë°í¸®Áò Çâ»ó ¹æ¹ı
+2. search - getNeighbors - ÇÑ¹ø ÇßÀ¸¸é ´Ù½Ã ÇÒ ÇÊ¿ä ¾øÀ½ Áßº¹È®ÀÎ ¹æ¹ı
+3. point, element, HidatoSolver, puzzlemanager 4°³·Î ¸ğµâÈ­¹æ¹ı
 
 
-4(í•´ê²°). ì¶œë ¥ ì˜ˆì˜ê²Œ í•˜ê¸° -1ê°’ ê³µë°±ìœ¼ë¡œ ì²˜ë¦¬í•˜ëŠ” ê±°ë‘
-ë‘ìë¦¬ìˆ«ì(22) í•œìë¦¬ìˆ«ì(5)í¬ê¸° ë‹¤ë¥¸ê±° \tì‚¬ìš©í•´ì…” ê· ì¼í•˜ê²Œ ì¶œë ¥
-ë‹¤ë¥´ê²Œ ì´ì˜ê²Œ ì¶œë ¥í•  ìˆ˜ ìˆìœ¼ë©´ ã„±ã„±
+4(ÇØ°á). Ãâ·Â ¿¹»Ú°Ô ÇÏ±â -1°ª °ø¹éÀ¸·Î Ã³¸®ÇÏ´Â °Å¶û
+µÎÀÚ¸®¼ıÀÚ(22) ÇÑÀÚ¸®¼ıÀÚ(5)Å©±â ´Ù¸¥°Å \t»ç¿ëÇØ¼Å ±ÕÀÏÇÏ°Ô Ãâ·Â
+´Ù¸£°Ô ÀÌ»Ú°Ô Ãâ·ÂÇÒ ¼ö ÀÖÀ¸¸é ¤¡¤¡
 ex)
 ---+---+---+
  1 | 22|  3|
