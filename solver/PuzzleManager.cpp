@@ -68,7 +68,7 @@ int* PuzzleManager::inputPuzz(ifstream& input, int &height, int& width)
 void PuzzleManager::printWall(int w) {
 	int wall_count = (w * 3) + 1;
 	while (wall_count--)
-		cout << "XX";
+		cout << "##";
 	cout << endl;
 }
 
@@ -81,17 +81,17 @@ void PuzzleManager::displayPuzz(int puzz[], int w)
 	{
 		// 값이 -1, 즉 벽일 경우의 출력
 		if (puzz[i] == -1) {
-			cout << "XX";
-			cout << "XXXX";
+			cout << "##";
+			cout << "####";
 			if (i % w == w - 1) {
-				cout << "XX" << endl;
+				cout << "##" << endl;
 				printWall(w);
 			}
 			continue;
 		}
 		// 시작 할 때 하나 찍어주기
-		cout << "XX";
-		// 벽이 아니고  경우 출력
+		cout << "##";
+		// 벽이 아니고 숫자일 경우 출력
 		if (puzz[i] == 0) {
 			cout << " ? " << " ";
 		}
@@ -105,7 +105,7 @@ void PuzzleManager::displayPuzz(int puzz[], int w)
 		}
 		// 마지막 width일 경우 출력
 		if (i % w == w - 1){
-			cout << "XX";
+			cout << "##";
 			cout << endl;
 			printWall(w);
 		}

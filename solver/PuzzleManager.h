@@ -1,4 +1,4 @@
-//PuzzleManager
+﻿//PuzzleManager
 #include <cstring>
 
 #ifndef _PUZZLEMANAGER_H_

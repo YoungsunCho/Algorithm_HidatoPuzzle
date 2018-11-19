@@ -1,4 +1,4 @@
-#include "HidatoSolver.h"
+﻿#include "HidatoSolver.h"
 #include <cstring>
 
 // 생성자
