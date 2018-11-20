@@ -70,9 +70,8 @@ void HidatoSolver::solve(int puzz[]) {
 // 시작점 찾고 start_point에 값 설정해주고
 // 못찾으면 false리턴
 bool HidatoSolver::findStart(Point& start_point) {
+	//앞에서 한 번 찾아주고
 	for (int i = 0; i < len; i++) {
-		// 시작점 찾으면
-		// 시작점 빨리찾기.. 하는 알고리즘 해서 시간 줄여도 될듯
 		if (E_array[i].value == 1) {
 			// start_point를 (x, y)로 설정하고 함수종료
 			// x가 height인거고 y가 width인거임
@@ -80,6 +79,16 @@ bool HidatoSolver::findStart(Point& start_point) {
 			start_point.y = (i / width);
 			return true;
 		}
+	}
+	//뒤에서 한 번 찾으면서 더욱 빠르게 시작점을 찾아준다.
+	for (int i = len-1; i > 0; i--) {
+	   if (E_array[i].value == 1) {
+			 	// start_point를 (x, y)로 설정하고 함수종료
+ 				// x가 height인거고 y가 width인거임
+	      start_point.x = (i % width);
+	      start_point.y = (i / width);
+	      return true;
+	   }
 	}
 	return false;
 }
