@@ -65,13 +65,15 @@ void HidatoSolver::solve(int puzz[]) {
 	// 시작점이 있으면
 	if (findStart(start_point) == true)
 		search(start_point, 2);
+	delete existed;
+	delete E_array;
 }
 
 // 시작점 찾고 start_point에 값 설정해주고
 // 못찾으면 false리턴
 bool HidatoSolver::findStart(Point& start_point) {
 	//앞에서 한 번 찾아주고
-	for (int i = 0; i < len; i++) {
+	for (int i = 0; i < len/2; i++) {
 		if (E_array[i].value == 1) {
 			// start_point를 (x, y)로 설정하고 함수종료
 			// x가 height인거고 y가 width인거임
@@ -79,14 +81,10 @@ bool HidatoSolver::findStart(Point& start_point) {
 			start_point.y = (i / width);
 			return true;
 		}
-	}
-	//뒤에서 한 번 찾으면서 더욱 빠르게 시작점을 찾아준다.
-	for (int i = len-1; i > 0; i--) {
-	   if (E_array[i].value == 1) {
-			 	// start_point를 (x, y)로 설정하고 함수종료
- 				// x가 height인거고 y가 width인거임
-	      start_point.x = (i % width);
-	      start_point.y = (i / width);
+		// 뒤에서부터 포인터 넘기기
+	  if (E_array[len-i-1].value == 1) {
+	      start_point.x = ((len-1-i) % width);
+	      start_point.y = ((len-1-i) / width);
 	      return true;
 	   }
 	}
@@ -101,10 +99,10 @@ bool HidatoSolver::search(Point p, int order) {
 
 	// 해당 점에 이웃찾기
 	// 만약에 이웃이 이미 찾았으면 찾을필요 없음 불필요한 연산을 하는거지 - 향후 알고리즘 향상
-	getNeighbors(p);
 
 	// current_element 레퍼런스로 선언
 	Element* current_element = &E_array[p.x + width * p.y];
+	if(current_element->neighbors[9]==false) getNeighbors(p);
 	Point moved_p;
 
 	// 존재하는 숫자일 경우
@@ -172,6 +170,7 @@ void HidatoSolver::getNeighbors(Point p) {
 		// 가능한 이웃이면 true로 설정
 		else (*current_element).neighbors[i] = true;
 	}
+	(*current_element).neighbors[8] = true;
 }
 
 

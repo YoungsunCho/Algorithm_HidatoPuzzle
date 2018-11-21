@@ -8,7 +8,7 @@ class Element {
 public:
 
 	int value;
-	bool neighbors[8] = { 0, };
+	bool neighbors[9] = { 0, };
 	Element();
 
 };
