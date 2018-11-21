@@ -35,7 +35,7 @@ PuzzleManager::PuzzleManager(string txtFile)
 		// 솔버가 퍼즐을 풀기위한 전처리 과정
 		solver.preprocessing(puzz, h, w);
 		// 퍼즐풀기
-		for(int i=0; i<100000; ++i)
+		// for(int i=0; i<100000; ++i)
 		solver.solve(puzz);
 		// 정답확인
 		solver.checkSolution(puzz);
