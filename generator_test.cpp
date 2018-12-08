@@ -9,6 +9,7 @@ using namespace std;
 
 #define MAX_SIZE 10
 #define MIN_SIZE 5
+#define MAX(X,Y) ((X) > (Y) ? (X) : (Y))
 
 // (x, y)점을 나타내기위한 Point 클래스
 class Point {
@@ -32,6 +33,7 @@ private:
 public:
   // 높이, 넓이, 총 길이 : width * height
 	int height, width, len;
+	int max = 0;
 
   int* puzz;
 
@@ -44,6 +46,7 @@ public:
 	void setPuzzleSize();
   void initializePuzzle();
   void makePuzzle(int level);
+	int getRandomDiff(int level);
 
 };
 
@@ -108,8 +111,37 @@ void HidatoGenerator::initializePuzzle() {
 }
 
 
+// 난이도에 따라 랜덤한 차이를 생성하기 위함
+int HidatoGenerator::getRandomDiff(int level){
+
+	int diff;
+	switch(level){
+		// easy 난이도 1 ~ 3
+		// 숫자간의 차이가 1 ~ 3 가 되게 설정 해줌
+		case 1:{
+				diff = rand() % 3 + 1;
+				break;
+		}
+		// medium 난이도 4 ~ 7
+		case 2:{
+				diff = rand() % 4 + 4;
+				break;
+		}
+		// hard 난이도 8 ~ 10
+		case 3:{
+				diff = rand() % 2 + 8;
+				break;
+		}
+	}
+
+	return diff;
+}
+
+
 // 퍼즐 만드는 함수 여기가 메인
 void HidatoGenerator::makePuzzle(int level){
+
+	int diff = getRandomDiff(level);
 
   // 만들수 없는 경우 세기위한 변수
   // count는 매트릭스를 넘어가거나 이미 숫자 표시한곳이면 ++
@@ -154,6 +186,7 @@ void HidatoGenerator::makePuzzle(int level){
 	            continue;
 	        }
 				}
+				// 추가해줘야 할 경우
         else break;
       }
     }
@@ -163,17 +196,34 @@ void HidatoGenerator::makePuzzle(int level){
 	    puzz[moved_p.x + width * moved_p.y] = order;
 	    p = moved_p;
 	    cout << order << endl;
+
+			// 숫자를 설정해준다음에 난이도에 따라 랜덤으로 받은 diff를 사용하여
+			// 빈칸(0) 으로 설정해준다.
+			if(order % diff != 0) puzz[moved_p.x + width * moved_p.y] = 0;
+
 	   	order ++;
 		}
   }
+
+	// max(마지막 숫자)를 저장해줫다가 마지막 숫자는 표시해준다.
+	max = MAX(order - 1, max);
+
+	// max 표시해주는 부분
+	// 밑에 주석풀고도 테스트해보고 안하고도 테스트 해보기
+	// if(count < 100){
+	//
+	// }
+	// else{
+	// 	puzz[moved_p.x + width * moved_p.y] = max;
+	// }
+
 
   // 만약에 퍼즐크기의 반보다 숫자들이 작게 생성 되면 퍼즐을 다시 생성
   if(order < len/2){
     initializePuzzle();
     makePuzzle(level);
-  }
+	}
 
-  cout << "max : " << order<< endl;
 
 }
 
@@ -236,10 +286,11 @@ int main() {
 
 	HidatoGenerator Gen = HidatoGenerator();
   Gen.setPuzzleSize();
-  Gen.makePuzzle(1);
+  Gen.makePuzzle(2);
 
   cout << "width : " << Gen.width << endl;
-  displayPuzz(Gen.puzz ,Gen.width);
+	cout << "max : " << Gen.max<< endl;
+	displayPuzz(Gen.puzz ,Gen.width);
 
 	return 0;
 }
@@ -279,5 +330,6 @@ direction solver랑 generator둘다 생성하는데 Point클래스에서 모듈�
 	히다토퍼즐환영합니다~~ -> 난이도 선택 -> generate된 퍼즐 보여주기
 	-> solve시작 -> solve 끝난 퍼즐 보여주기
 
-
+ 8. 퍼즐의 max값 어떻게 처리해 줄것인지.... max값 저장하는 구문 넣으면 가끔 에러뜸..
+ 우리 솔버는 max값을 표시해줘야 함.
 */
