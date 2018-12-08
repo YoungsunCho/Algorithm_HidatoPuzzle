@@ -26,7 +26,7 @@ public:
 	// 해당점의 값이다.
 	int value;
 	// 이웃들은 최대 8개를 가질 수 있으며 초기설정은 전부 0으로 해준다.
-	bool neighbors[8] = { 0, };
+	bool neighbors[9] = { 0, };
 
 	// 생성자
 	Element() { }
@@ -157,10 +157,19 @@ bool HidatoSolver::search(Point p, int order) {
 
 	// 해당 점에 이웃찾기
 	// 만약에 이웃이 이미 찾았으면 찾을필요 없음 불필요한 연산을 하는거지 - 향후 알고리즘 향상
-	getNeighbors(p);
-
 	// current_element 레퍼런스로 선언
 	Element* current_element = &E_array[p.x + width * p.y];
+
+	// 엘리먼트의 이웃들을 찾지 않은거면
+	if(current_element -> neighbors[8] == false){
+		getNeighbors(p);
+		cout << order << endl;
+		(*current_element).neighbors[8] = true;
+		// 그럼 중복된 value는 안나오겟지
+		// 2개짜리는 왜뜨는지 모르겟
+
+	}
+
 	Point moved_p;
 
 	// 존재하는 숫자일 경우
@@ -205,13 +214,16 @@ bool HidatoSolver::search(Point p, int order) {
 // 해당 point의 이웃들을 찾아줘서 element의 neighbors에 저장하는 함수
 void HidatoSolver::getNeighbors(Point p) {
 
+
+
 	int x = p.x;
 	int y = p.y;
 	Point moved_p;
 
 	// 이웃을 찾아야할 current_element, 레퍼런스로 받음
 	Element* current_element = &E_array[x + width * y];
-	//
+
+
 	Element temp;
 
 	// 8가지 방향
@@ -280,7 +292,7 @@ void displayPuzz(int puzz[], int w)
 	{
 		// 값이 -1, 즉 벽일 경우의 출력
 		if (puzz[i] == -1) {
-			cout << "XX";				
+			cout << "XX";
 			cout << "XXXX";
 			if (i % w == w - 1) {
 				cout << "XX" << endl;
@@ -296,7 +308,7 @@ void displayPuzz(int puzz[], int w)
 		}
 		else {
 			// 십의 자리일 경우 출력 포멧
-			if ((puzz[i] / 10) >= 1)               
+			if ((puzz[i] / 10) >= 1)
 				cout << " " << puzz[i] << " ";
 			// 일의 자리일 경우 출력 포멧
 			else
