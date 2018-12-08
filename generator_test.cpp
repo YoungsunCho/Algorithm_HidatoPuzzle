@@ -31,8 +31,7 @@ private:
 
 public:
   // 높이, 넓이, 총 길이 : width * height
-	// max = 퍼즐마지막 값을 저장하기 위함
-	int height, width, len, max;
+	int height, width, len;
 
   int* puzz;
 
@@ -43,12 +42,8 @@ public:
 
 	// 제너레이터가 가지고있는 메소드들
 	void setPuzzleSize();
-  void setStartPoint();
   void initializePuzzle();
-  void setWall();
-  void makePuzzle();
-
-  void fillBlankInPuzzle(int level);
+  void makePuzzle(int level);
 
 };
 
@@ -92,40 +87,29 @@ void HidatoGenerator::setPuzzleSize() {
   puzz = new int[len];
   memset(puzz, 0, len);
 
-  // 시작점 랜덤으로 설정하고 puzzle을 제일큰 숫자로 초기화
+  // 시작점 랜덤으로 설정하고 puzzle을 -1로 초기화
   initializePuzzle();
-  setStartPoint();
 }
 
 
-// 시작점 정해주는 함수
-void HidatoGenerator::setStartPoint() {
-  startPoint.x = rand() % width;
+// 전부 -1(벽)로 초기화 해준다음에 시작점 랜덤으로 정해주는 함수
+void HidatoGenerator::initializePuzzle() {
+
+	for(int i = 0; i < len; i++){
+    puzz[i] = -1;
+  }
+
+	startPoint.x = rand() % width;
   startPoint.y = rand() % height;
   cout << "startPoint : " << "(" << startPoint.x << ", " << startPoint.y << ")" << endl;
-}
 
-
-// 퍼즐 초기화 하는 함수
-void HidatoGenerator::initializePuzzle(){
-  for(int i = 0; i < len; i++){
-    puzz[i] = 99;
-  }
-}
-
-
-// 마지막에 임의로 크게 설정했던 숫자들을 벽으로 만들어주기
-void HidatoGenerator::setWall() {
-  for(int i = 0; i < len; i++){
-    if(puzz[i] == 99) puzz[i]= -1;
-  }
+	// 시작점 1로 설정
+  puzz[startPoint.x + width * startPoint.y] = 1;
 }
 
 
 // 퍼즐 만드는 함수 여기가 메인
-void HidatoGenerator::makePuzzle() {
-  // 시작점 1로 설정
-  puzz[startPoint.x * width + startPoint.y] = 1;
+void HidatoGenerator::makePuzzle(int level){
 
   // 만들수 없는 경우 세기위한 변수
   // count는 매트릭스를 넘어가거나 이미 숫자 표시한곳이면 ++
@@ -148,12 +132,13 @@ void HidatoGenerator::makePuzzle() {
 
   // 최대는 len까지고 count가 일정수준 넘어가면 stop
   while(order < len && count < 100){
+
     // 기존에 있는 숫자거나 매트릭스를 넘어가는 경우는 방향을 다시설정해준다.
     while(count < 100){
       d = rand() % 8;
       moved_p.x = p.x + direction[d].x;
       moved_p.y = p.y + direction[d].y;
-      temp = puzz[moved_p.x * width + moved_p.y];
+      temp = puzz[moved_p.x + width * moved_p.y];
 
       // 매트릭스를 벗어나는 경우
     	if (moved_p.x < 0 || moved_p.y < 0 || moved_p.x >= width || moved_p.y >= height){
@@ -163,49 +148,34 @@ void HidatoGenerator::makePuzzle() {
       // 매트릭스 안
       else{
         // 기존에 있는 숫자인 경우
-        if(temp < order) {
-            count++;
-            continue;
-        }
+				if(temp != -1){
+	        if(temp < order) {
+	            count++;
+	            continue;
+	        }
+				}
         else break;
       }
     }
-
-    // 다음숫자 찾았으면
-    puzz[moved_p.x * width + moved_p.y] = order;
-    p = moved_p;
-    cout << order << endl;
-    order ++;
+		// 다음숫자를 어디에 늘지 랜덤으로 찾고나서
+		// 숫자를 추가해줘야 하는 경우
+		if(count < 100){
+	    puzz[moved_p.x + width * moved_p.y] = order;
+	    p = moved_p;
+	    cout << order << endl;
+	   	order ++;
+		}
   }
 
   // 만약에 퍼즐크기의 반보다 숫자들이 작게 생성 되면 퍼즐을 다시 생성
   if(order < len/2){
     initializePuzzle();
-    setStartPoint();
-    makePuzzle();
+    makePuzzle(level);
   }
 
-  cout << "max : " << order - 1<< endl;
-  cout << width <<  "   " << height << endl;
+  cout << "max : " << order<< endl;
 
-  // 나머지 숫자들 벽으로 만들어주기
-  setWall();
 }
-
-// 퍼즐 초기화 하는 함수
-void HidatoGenerator::fillBlankInPuzzle(int level){
-  if(level == 1){
-    cout << "fill blank level 1" << endl;
-  }
-}
-
-
-
-
-
-
-
-
 
 
 
@@ -266,8 +236,7 @@ int main() {
 
 	HidatoGenerator Gen = HidatoGenerator();
   Gen.setPuzzleSize();
-  Gen.makePuzzle();
-  Gen.fillBlankInPuzzle(1);
+  Gen.makePuzzle(1);
 
   cout << "width : " << Gen.width << endl;
   displayPuzz(Gen.puzz ,Gen.width);
@@ -277,11 +246,11 @@ int main() {
 
 /*
 1. min max 설정 어느정도로 할 건지?? 현재 min : 5, max : 10이라 6 ~ 10
-이거에 따라 count도 얼마나 해줘야 할지, initializePuzzle하는 부분에서 99로 설정한것도 체인지 해줘야함
+이거에 따라 count도 얼마나 해줘야 할지정해야 함
 
-2. 중간에 끊기는거 왜인지 모르겠음....  row col 문제 같기도
+2. n x n 사이즈인데 square매트릭스 아닐때 row col 변화시켰을 때 되는지... 확인좀..
 
-3. n x n 사이즈인데 row col 변화시켰을 때 되는지... 확인좀..
+3. generate된거 solver로 정상적으로 풀리는지!
 
 4. 빈칸 구현함수 난이도에 따라 구현할 예정
   마지막에 난이도에 따라 0(빈칸)의 개수 정해주기
@@ -289,10 +258,26 @@ int main() {
   2) medium 5 ~ 9
   3) hard : 숫자가 10 ~ 13 사이만큼 차이나게
 
+	UI 개선 해주세요
+	ex)
+	ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+	ㅣ   난이도를 선택해주세요                   ㅣ
+	ㅣ   easy : 1                              ㅣ
+	대충 이런식으로
+
+	난이도 입력받는 입력문 만들기
+
+
 5. 만든 퍼즐 기존 input.txt파일 형식으로 출력하기 row col 퍼즐
 
 6. 모듈화 지금 다퍼블릭 아마 puzz startPoint는 변화없어도 될 것같고 point받아오고
 direction solver랑 generator둘다 생성하는데 Point클래스에서 모듈화해보기
+
+7. 모듈화 까지마치면 ui마무리 짓고 puzzlemaneger로 자동으로 생성되고
+	출력까지 되도록 만들기
+	진행상황 표시되게 프린트
+	히다토퍼즐환영합니다~~ -> 난이도 선택 -> generate된 퍼즐 보여주기
+	-> solve시작 -> solve 끝난 퍼즐 보여주기
 
 
 */
