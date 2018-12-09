@@ -1,4 +1,4 @@
-#include "HidatoGenerator.h"
+﻿#include "HidatoGenerator.h"
 
 #include <iostream>
 #include <sstream>
@@ -64,7 +64,7 @@ void HidatoGenerator::initializePuzzle() {
 
 	startPoint.x = rand() % width;
   startPoint.y = rand() % height;
-  cout << "startPoint : " << "(" << startPoint.x << ", " << startPoint.y << ")" << endl;
+  // cout << "startPoint : " << "(" << startPoint.x << ", " << startPoint.y << ")" << endl;
 
 	// 시작점 1로 설정
   puzz[startPoint.x + width * startPoint.y] = 1;
@@ -102,7 +102,7 @@ int HidatoGenerator::getRandomDiff(int level){
 void HidatoGenerator::makePuzzle(int level){
 
 	int diff = getRandomDiff(level);
-	cout << "diff : " << diff << endl;
+	// cout << "diff : " << diff << endl;
 
   // 만들수 없는 경우 세기위한 변수
   // count는 매트릭스를 넘어가거나 이미 숫자 표시한곳이면 ++
@@ -157,7 +157,7 @@ void HidatoGenerator::makePuzzle(int level){
 		if(count < limit){
 	    puzz[moved_p.x + width * moved_p.y] = order;
 	    p = moved_p;
-	    cout << order << endl;
+	    //cout << order << endl;
 
 			// 숫자를 설정해준다음에 난이도에 따라 랜덤으로 받은 diff를 사용하여
 			// 처음에 숫자 1로 시작하기 때문에 (order-1)로 바꿔줬다.
