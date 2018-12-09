@@ -65,8 +65,6 @@ void HidatoSolver::solve(int puzz[]) {
 	// 시작점이 있으면
 	if (findStart(start_point) == true)
 		search(start_point, 2);
-	delete existed;
-	delete E_array;
 }
 
 // 시작점 찾고 start_point에 값 설정해주고

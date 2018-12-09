@@ -1,0 +1,5 @@
+C:\Users\USER\AppData\Local\Temp\ccQVkLzL.o:GeneratorManager.cpp:(.text+0x1d2): undefined reference to `HidatoGenerator::HidatoGenerator()'
+C:\Users\USER\AppData\Local\Temp\ccQVkLzL.o:GeneratorManager.cpp:(.text+0x1e9): undefined reference to `HidatoGenerator::setPuzzleSize(int, int)'
+C:\Users\USER\AppData\Local\Temp\ccQVkLzL.o:GeneratorManager.cpp:(.text+0x1fc): undefined reference to `HidatoGenerator::makePuzzle(int)'
+c:/mingw/bin/../lib/gcc/mingw32/6.3.0/../../../libmingw32.a(main.o):(.text.startup+0xa0): undefined reference to `WinMain@16'
+collect2.exe: error: ld returned 1 exit status

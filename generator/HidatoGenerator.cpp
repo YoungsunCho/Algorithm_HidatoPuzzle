@@ -33,15 +33,15 @@ HidatoGenerator::HidatoGenerator() {
 }
 
 // 빈 퍼즐 선언 크기를 랜덤으로 만들기 위함
-// 일단 n x n 사이즈로 정한다.
 void HidatoGenerator::setPuzzleSize(int w, int h) {
 
+	// 기존에 크기도 랜덤으로 만들었을 때 썻던 코드들 현재 코드는 입력받아 생성하기 때문에 주석처리 하였다.
   // // 1 ~ max 숫자 생성
   // int temp = rand() % MAX_SIZE + 1;
   // // min과 max사이의 숫자로 하기위해
   // // min보다 작으면 min더하기
   // if(temp < MIN_SIZE) temp += MIN_SIZE;
-	// // 여기서 width, height 건드려서 수정 가능함.
+
 	width = w;
 	height = h;
 	len = width * height;
@@ -58,15 +58,15 @@ void HidatoGenerator::setPuzzleSize(int w, int h) {
 // 전부 -1(벽)로 초기화 해준다음에 시작점 랜덤으로 정해주는 함수
 void HidatoGenerator::initializePuzzle() {
 
+	// 전부 벽으로 초기화
 	for(int i = 0; i < len; i++){
     puzz[i] = -1;
   }
 
+	// 시작점 랜덤으로 위치 정해주고 1로 설정
 	startPoint.x = rand() % width;
   startPoint.y = rand() % height;
-  // cout << "startPoint : " << "(" << startPoint.x << ", " << startPoint.y << ")" << endl;
 
-	// 시작점 1로 설정
   puzz[startPoint.x + width * startPoint.y] = 1;
 }
 
@@ -101,28 +101,28 @@ int HidatoGenerator::getRandomDiff(int level){
 // 퍼즐 만드는 함수 여기가 메인
 void HidatoGenerator::makePuzzle(int level){
 
+	// difficulty에 따른 숫자간의 차이를 설정하기 위한 변수
 	int diff = getRandomDiff(level);
-	// cout << "diff : " << diff << endl;
 
   // 만들수 없는 경우 세기위한 변수
   // count는 매트릭스를 넘어가거나 이미 숫자 표시한곳이면 ++
   int count = 0;
 
-  // 2부터 ++ 해가며 저장
+  // 1은 시작점으로 저장해 두었으니  2부터 ++ 해가며 저장
   int order = 2;
 
   // 처음 좌표와 옮겼을 때의 좌표를 표현하기 위한 변수들
   Point p, moved_p;
   p = startPoint;
 
-  // 방향을 랜덤으로 만들기 위한 변수 (0 ~ 7)
+  // d :  방향을 랜덤으로 만들기 위한 변수  (0 ~ 7)
   // 임시로 이동한 좌표의 value값 저장하기위한 temp변수
   int d, temp;
 
 	int limit = len * len;
 
   // 이 알고리즘의 문제점 완벽히 막힐경우는 어떻게 해결할 것인가 그것만 해결하면될듯
-  // 일단은 count제한을 두어 해결 너무작게만들어지면 다시만들면 되니까!
+  // 일단은 count제한을 두어 해결 너무 작게 만들어지면 다시만들면 되니까!
 
   // 최대는 len까지고 count가 일정수준 넘어가면 stop
   while(order < len && count < limit){
@@ -152,12 +152,12 @@ void HidatoGenerator::makePuzzle(int level){
         else break;
       }
     }
+
 		// 다음숫자를 어디에 늘지 랜덤으로 찾고나서
 		// 숫자를 추가해줘야 하는 경우
 		if(count < limit){
 	    puzz[moved_p.x + width * moved_p.y] = order;
 	    p = moved_p;
-	    //cout << order << endl;
 
 			// 숫자를 설정해준다음에 난이도에 따라 랜덤으로 받은 diff를 사용하여
 			// 처음에 숫자 1로 시작하기 때문에 (order-1)로 바꿔줬다.
@@ -177,21 +177,10 @@ void HidatoGenerator::makePuzzle(int level){
 	max = MAX(order - 1, max);
 	puzz[maxPoint.x + width * maxPoint.y] = max;
 
-	// max 표시해주는 부분
-	// 밑에 주석풀고도 테스트해보고 안하고도 테스트 해보기
-	// if(count < limit){
-	//
-	// }
-	// else{
-	// 	puzz[maxPoint.x + width * maxPoint.y] = max;
-	// }
-
-
   // 만약에 퍼즐크기의 반보다 숫자들이 작게 생성 되면 퍼즐을 다시 생성
   if(order < len/2){
     initializePuzzle();
     makePuzzle(level);
 	}
-
 
 }

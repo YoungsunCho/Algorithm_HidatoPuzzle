@@ -17,30 +17,31 @@ GeneratorManager::GeneratorManager(){
   int difficulty, width, height;
   // 난이도 선택 UI
   cout << "------------------------------------------" << endl;
-  cout << "           select difficulty              " << endl;
-  cout << "     easy : 1,  normal : 2,  hard : 3     " << endl;
+  cout << "           Select Difficulty              " << endl;
+  cout << "     Easy : 1,  Normal : 2,  Hard : 3     " << endl;
+  cout << "------------------------------------------" << endl;
+
   cin >> difficulty;
   // 예외처리 여기서 중요하지 않기에 생략
 
   cout << "------------------------------------------" << endl;
-  cout << "       select the number of widths          " << endl;
+  cout << "       Enter The Number Of Width          " << endl;
+  cout << "------------------------------------------" << endl;
   cin >> width;
   cout << "------------------------------------------" << endl;
-  cout << "       select the number of heights       " << endl;
-  cin >> height;
+  cout << "       Enter The Number Of Height         " << endl;
   cout << "------------------------------------------" << endl;
+  cin >> height;
 
   HidatoGenerator Gen = HidatoGenerator();
   Gen.setPuzzleSize(width, height);
   Gen.makePuzzle(difficulty);
 
-  cout << "width : " << Gen.width << endl;
-  cout << "height : " << Gen.height << endl;
-  cout << "max : " << Gen.max<< endl;
-
+  cout << endl;
+  cout << "       " << Gen.width << " x " << Gen.height << " HidatoPuzzle Created       "<< endl;
+  cout << "------------------------------------------" << endl;
   displayPuzz(Gen.puzz ,Gen.width);
   saveInputFile(Gen.puzz, Gen.width);
-
 }
 
 
