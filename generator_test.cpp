@@ -43,7 +43,7 @@ public:
 	HidatoGenerator();
 
 	// 제너레이터가 가지고있는 메소드들
-	void setPuzzleSize();
+	void setPuzzleSize(int w, int h);
   void initializePuzzle();
   void makePuzzle(int level);
 	int getRandomDiff(int level);
@@ -76,19 +76,17 @@ HidatoGenerator::HidatoGenerator() {
 
 // 빈 퍼즐 선언 크기를 랜덤으로 만들기 위함
 // 일단 n x n 사이즈로 정한다.
-void HidatoGenerator::setPuzzleSize() {
+void HidatoGenerator::setPuzzleSize(int w, int h) {
 
   // 1 ~ max 숫자 생성
   int temp = rand() % MAX_SIZE + 1;
   // min과 max사이의 숫자로 하기위해
   // min보다 작으면 min더하기
   if(temp < MIN_SIZE) temp += MIN_SIZE;
-  width = height = temp;
-	// 여기서 width, height, temp 건드려서 수정 가능함.
-	// width++;
-	// height= height+10;
-	// temp++;
-  len = width * height;
+	// 여기서 width, height 건드려서 수정 가능함.
+	width = w;
+	height = h;
+	len = width * height;
 
   // len만큼의 puzz배열 할당
   puzz = new int[len];
@@ -308,10 +306,28 @@ void saveInputFile(int puzz[], int w)
 int main() {
   // RAND 함수 계속사용하기위해 메인부분에서 생성
   srand(time(NULL));
+	int difficulty, width, height;
+	// 난이도 선택 UI
+	cout << "------------------------------------------" << endl;
+	cout << "           select difficulty              " << endl;
+	cout << "     easy : 1,  normal : 2,  hard : 3     " << endl;
+	cin >> difficulty;
+	// 예외처리 여기서 중요하지 않기에 생략
+
+	cout << "------------------------------------------" << endl;
+	cout << "       select the number of rows          " << endl;
+	cin >> width;
+	cout << "------------------------------------------" << endl;
+	cout << "       select the number of columns       " << endl;
+	cin >> height;
+	cout << "------------------------------------------" << endl;
+
+	cout << "" << endl;
+
 
 	HidatoGenerator Gen = HidatoGenerator();
-  Gen.setPuzzleSize();
-  Gen.makePuzzle(1);
+  Gen.setPuzzleSize(width, height);
+  Gen.makePuzzle(difficulty);
 
   cout << "width : " << Gen.width << endl;
 	cout << "max : " << Gen.max<< endl;
@@ -326,31 +342,31 @@ int main() {
 이거에 따라 count도 얼마나 해줘야 할지정해야 함
 	-> min max 적절한 것 같은데..더 해봐야겠다.
 
-2. n x n 사이즈인데 square매트릭스 아닐때 row col 변화시켰을 때 되는지... 확인좀..
-	-> 이거는 정상작동됨 좀만 고치면 자유자재로 인풋 받아서 변경할 수 있을 듯
-
-3. generate된거 solver로 정상적으로 풀리는지!
-	-> saveInputFile을 통해서 input파일 저장해주고 따로 솔버에서 돌리는 것 가능.
-
-4. 빈칸 구현함수 난이도에 따라 구현할 예정
-  마지막에 난이도에 따라 0(빈칸)의 개수 정해주기
-  1) easy 1 ~ 4
-  2) medium 5 ~ 9
-  3) hard : 숫자가 10 ~ 13 사이만큼 차이나게
-
-	UI 개선 해주세요
-	ex)
-	ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-	ㅣ   난이도를 선택해주세요                   ㅣ
-	ㅣ   easy : 1                              ㅣ
-	대충 이런식으로
-
-	난이도 입력받는 입력문 만들기
-
-	-> ㅇㅋ 노가다.
-
-5. 만든 퍼즐 기존 input.txt파일 형식으로 출력하기 row col 퍼즐
-	-> 위에 solver 정상작동하는거에서 해결함.
+// 2. n x n 사이즈인데 square매트릭스 아닐때 row col 변화시켰을 때 되는지... 확인좀..
+// 	-> 자유자재로 인풋 받아서 변경완료
+//
+// 3. generate된거 solver로 정상적으로 풀리는지!
+// 	-> saveInputFile을 통해서 input파일 저장해주고 따로 솔버에서 돌리는 것 가능.
+//
+// 4. 빈칸 구현함수 난이도에 따라 구현할 예정
+//   마지막에 난이도에 따라 0(빈칸)의 개수 정해주기
+//   1) easy 1 ~ 4
+//   2) medium 5 ~ 9
+//   3) hard : 숫자가 10 ~ 13 사이만큼 차이나게
+//
+// 	UI 개선 해주세요
+// 	ex)
+// 	ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+// 	ㅣ   난이도를 선택해주세요                   ㅣ
+// 	ㅣ   easy : 1                              ㅣ
+// 	대충 이런식으로
+//
+// 	난이도 입력받는 입력문 만들기
+//
+// 	-> ㅇㅋ 노가다.
+//
+// 5. 만든 퍼즐 기존 input.txt파일 형식으로 출력하기 row col 퍼즐
+// 	-> 위에 solver 정상작동하는거에서 해결함.
 
 6. 모듈화 지금 다퍼블릭 아마 puzz startPoint는 변화없어도 될 것같고 point받아오고
 direction solver랑 generator둘다 생성하는데 Point클래스에서 모듈화해보기
