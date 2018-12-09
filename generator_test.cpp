@@ -38,6 +38,7 @@ public:
   int* puzz;
 
   Point startPoint;
+	Point maxPoint;
 
 	// 생성자
 	HidatoGenerator();
@@ -78,12 +79,12 @@ HidatoGenerator::HidatoGenerator() {
 // 일단 n x n 사이즈로 정한다.
 void HidatoGenerator::setPuzzleSize(int w, int h) {
 
-  // 1 ~ max 숫자 생성
-  int temp = rand() % MAX_SIZE + 1;
-  // min과 max사이의 숫자로 하기위해
-  // min보다 작으면 min더하기
-  if(temp < MIN_SIZE) temp += MIN_SIZE;
-	// 여기서 width, height 건드려서 수정 가능함.
+  // // 1 ~ max 숫자 생성
+  // int temp = rand() % MAX_SIZE + 1;
+  // // min과 max사이의 숫자로 하기위해
+  // // min보다 작으면 min더하기
+  // if(temp < MIN_SIZE) temp += MIN_SIZE;
+	// // 여기서 width, height 건드려서 수정 가능함.
 	width = w;
 	height = h;
 	len = width * height;
@@ -144,6 +145,7 @@ int HidatoGenerator::getRandomDiff(int level){
 void HidatoGenerator::makePuzzle(int level){
 
 	int diff = getRandomDiff(level);
+	cout << "diff : " << diff << endl;
 
   // 만들수 없는 경우 세기위한 변수
   // count는 매트릭스를 넘어가거나 이미 숫자 표시한곳이면 ++
@@ -160,15 +162,16 @@ void HidatoGenerator::makePuzzle(int level){
   // 임시로 이동한 좌표의 value값 저장하기위한 temp변수
   int d, temp;
 
+	int limit = len * len;
 
   // 이 알고리즘의 문제점 완벽히 막힐경우는 어떻게 해결할 것인가 그것만 해결하면될듯
   // 일단은 count제한을 두어 해결 너무작게만들어지면 다시만들면 되니까!
 
   // 최대는 len까지고 count가 일정수준 넘어가면 stop
-  while(order < len && count < 100){
+  while(order < len && count < limit){
 
     // 기존에 있는 숫자거나 매트릭스를 넘어가는 경우는 방향을 다시설정해준다.
-    while(count < 100){
+    while(count < limit){
       d = rand() % 8;
       moved_p.x = p.x + direction[d].x;
       moved_p.y = p.y + direction[d].y;
@@ -194,29 +197,36 @@ void HidatoGenerator::makePuzzle(int level){
     }
 		// 다음숫자를 어디에 늘지 랜덤으로 찾고나서
 		// 숫자를 추가해줘야 하는 경우
-		if(count < 100){
+		if(count < limit){
 	    puzz[moved_p.x + width * moved_p.y] = order;
 	    p = moved_p;
 	    cout << order << endl;
 
 			// 숫자를 설정해준다음에 난이도에 따라 랜덤으로 받은 diff를 사용하여
+			// 처음에 숫자 1로 시작하기 때문에 (order-1)로 바꿔줬다.
 			// 빈칸(0) 으로 설정해준다.
-			if(order % diff != 0) puzz[moved_p.x + width * moved_p.y] = 0;
+			if((order-1) % diff != 0) puzz[moved_p.x + width * moved_p.y] = 0;
+
+			//maxPoint의 위치를 갱신해준다.
+			maxPoint.x = moved_p.x;
+			maxPoint.y = moved_p.y;
 
 	   	order ++;
 		}
+
   }
 
 	// max(마지막 숫자)를 저장해줫다가 마지막 숫자는 표시해준다.
 	max = MAX(order - 1, max);
+	puzz[maxPoint.x + width * maxPoint.y] = max;
 
 	// max 표시해주는 부분
 	// 밑에 주석풀고도 테스트해보고 안하고도 테스트 해보기
-	// if(count < 100){
+	// if(count < limit){
 	//
 	// }
 	// else{
-	// 	puzz[moved_p.x + width * moved_p.y] = max;
+	// 	puzz[maxPoint.x + width * maxPoint.y] = max;
 	// }
 
 
@@ -228,9 +238,6 @@ void HidatoGenerator::makePuzzle(int level){
 
 
 }
-
-
-
 
 
 // 반복되는 벽 print문 함수
@@ -324,7 +331,7 @@ int main() {
 
 	cout << "" << endl;
 
-
+	int puzzleSize;
 	HidatoGenerator Gen = HidatoGenerator();
   Gen.setPuzzleSize(width, height);
   Gen.makePuzzle(difficulty);
@@ -377,7 +384,7 @@ direction solver랑 generator둘다 생성하는데 Point클래스에서 모듈�
 	히다토퍼즐환영합니다~~ -> 난이도 선택 -> generate된 퍼즐 보여주기
 	-> solve시작 -> solve 끝난 퍼즐 보여주기
 
- 8. 퍼즐의 max값 어떻게 처리해 줄것인지.... max값 저장하는 구문 넣으면 가끔 에러뜸..
- 우리 솔버는 max값을 표시해줘야 함.
-  -> 중요중요중요중요 어케해결할지 고민.
+ // 8. 퍼즐의 max값 어떻게 처리해 줄것인지.... max값 저장하는 구문 넣으면 가끔 에러뜸..
+ // 우리 솔버는 max값을 표시해줘야 함.
+ //  -> 중요중요중요중요 어케해결할지 고민.
 */
