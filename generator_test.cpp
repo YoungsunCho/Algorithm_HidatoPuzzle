@@ -84,6 +84,10 @@ void HidatoGenerator::setPuzzleSize() {
   // min보다 작으면 min더하기
   if(temp < MIN_SIZE) temp += MIN_SIZE;
   width = height = temp;
+	// 여기서 width, height, temp 건드려서 수정 가능함.
+	// width++;
+	// height= height+10;
+	// temp++;
   len = width * height;
 
   // len만큼의 puzz배열 할당
@@ -258,7 +262,7 @@ void displayPuzz(int puzz[], int w)
 		}
 		// 시작 할 때 하나 찍어주기
 		cout << "XX";
-		// 벽이 아니고  경우 출력
+		// 벽이 아니고 모르는 경우 출력
 		if (puzz[i] == 0) {
 			cout << " ? " << " ";
 		}
@@ -279,6 +283,27 @@ void displayPuzz(int puzz[], int w)
 	}
 }
 
+void saveInputFile(int puzz[], int w)
+{
+	ofstream fout;
+	fout.open("input.txt");
+	// 입출력 파일 갯수 고정으로 1이 될 것임 하나 만들 때 마다 풀어줄 것
+	fout << 1 << endl << endl;
+	// 행과 열이 몇개인지 써주기 위해, 줄 나누기를 위해 계산식
+	int height = _msize(puzz) / sizeof(int);
+	fout << (height/w) << " " << w << endl;
+	for (int i = 0; i < height; ++i)
+	{
+		// 퍼즐에 담긴 값 하나씩 출력
+		fout << puzz[i] << " ";
+		// 마지막 값이라면 줄바꾸기 수행
+		if (i % w == w - 1) {
+			fout << endl;
+		}
+	}
+	fout.close();
+}
+
 
 int main() {
   // RAND 함수 계속사용하기위해 메인부분에서 생성
@@ -286,11 +311,12 @@ int main() {
 
 	HidatoGenerator Gen = HidatoGenerator();
   Gen.setPuzzleSize();
-  Gen.makePuzzle(2);
+  Gen.makePuzzle(1);
 
   cout << "width : " << Gen.width << endl;
 	cout << "max : " << Gen.max<< endl;
 	displayPuzz(Gen.puzz ,Gen.width);
+	saveInputFile(Gen.puzz, Gen.width);
 
 	return 0;
 }
@@ -298,10 +324,13 @@ int main() {
 /*
 1. min max 설정 어느정도로 할 건지?? 현재 min : 5, max : 10이라 6 ~ 10
 이거에 따라 count도 얼마나 해줘야 할지정해야 함
+	-> min max 적절한 것 같은데..더 해봐야겠다.
 
 2. n x n 사이즈인데 square매트릭스 아닐때 row col 변화시켰을 때 되는지... 확인좀..
+	-> 이거는 정상작동됨 좀만 고치면 자유자재로 인풋 받아서 변경할 수 있을 듯
 
 3. generate된거 solver로 정상적으로 풀리는지!
+	-> saveInputFile을 통해서 input파일 저장해주고 따로 솔버에서 돌리는 것 가능.
 
 4. 빈칸 구현함수 난이도에 따라 구현할 예정
   마지막에 난이도에 따라 0(빈칸)의 개수 정해주기
@@ -318,8 +347,10 @@ int main() {
 
 	난이도 입력받는 입력문 만들기
 
+	-> ㅇㅋ 노가다.
 
 5. 만든 퍼즐 기존 input.txt파일 형식으로 출력하기 row col 퍼즐
+	-> 위에 solver 정상작동하는거에서 해결함.
 
 6. 모듈화 지금 다퍼블릭 아마 puzz startPoint는 변화없어도 될 것같고 point받아오고
 direction solver랑 generator둘다 생성하는데 Point클래스에서 모듈화해보기
@@ -332,4 +363,5 @@ direction solver랑 generator둘다 생성하는데 Point클래스에서 모듈�
 
  8. 퍼즐의 max값 어떻게 처리해 줄것인지.... max값 저장하는 구문 넣으면 가끔 에러뜸..
  우리 솔버는 max값을 표시해줘야 함.
+  -> 중요중요중요중요 어케해결할지 고민.
 */
