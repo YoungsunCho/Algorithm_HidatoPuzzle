@@ -1,4 +1,4 @@
-﻿#include "HidatoSolver.h"
+#include "HidatoSolver.h"
 #include <cstring>
 
 // 생성자
@@ -94,8 +94,16 @@ bool HidatoSolver::findStart(Point& start_point) {
 // order의 순서
 bool HidatoSolver::search(Point p, int order) {
 
-	// 끝까지 찾으면 종료
-	if (order == max) return true;
+	Point moved_p;
+	// 끝까지 찾았을 때, 8 방향에 마지막 숫자가 있을시 종료.
+	if (order == max) {
+		for(int i = 0; i<8; i++){
+			moved_p.x = p.x + direction[i].x;
+			moved_p.y = p.y + direction[i].y;
+			if(E_array[moved_p.x + width * moved_p.y].value == max)return true;
+		}
+		return false;
+	}
 
 	// 해당 점에 이웃찾기
 	// 만약에 이웃이 이미 찾았으면 찾을필요 없음 불필요한 연산을 하는거지 - 향후 알고리즘 향상
@@ -103,7 +111,6 @@ bool HidatoSolver::search(Point p, int order) {
 	// current_element 레퍼런스로 선언
 	Element* current_element = &E_array[p.x + width * p.y];
 	if(current_element->neighbors[9]==false) getNeighbors(p);
-	Point moved_p;
 
 	// 존재하는 숫자일 경우
 	if (existed[order]) {
