@@ -9,13 +9,13 @@ using namespace std;
 
 int main() {
 
-	cout <<"-----------------------------------------Hidato Puzzle Start!!!-----------------------------------------" << endl;
+	cout << endl <<"===============================Hidato Puzzle===============================" << endl << endl;
 
-	cout <<"-----------------------------------------Generator Start-----------------------------------------" << endl;
+	cout <<"******************************Generator Start******************************" << endl;
 
 	GeneratorManager generatorManager;
 
-	cout <<"-----------------------------------------Solver Start-----------------------------------------" << endl;
+	cout << endl <<"*******************************Solver Start*******************************" << endl;
 
 	SolverManager solverManager("input.txt");
 

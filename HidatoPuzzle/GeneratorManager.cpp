@@ -16,30 +16,30 @@ GeneratorManager::GeneratorManager(){
   srand(time(NULL));
   int difficulty, width, height;
   // 난이도 선택 UI
-  cout << "------------------------------------------" << endl;
-  cout << "           Select Difficulty              " << endl;
-  cout << "     Easy : 1,  Normal : 2,  Hard : 3     " << endl;
-  cout << "------------------------------------------" << endl;
+  cout << "---------------------------------------------------------------------------" << endl;
+  cout << "                              Select Difficulty              " << endl;
+  cout << "                       Easy : 1,  Normal : 2,  Hard : 3     " << endl;
+  cout << "---------------------------------------------------------------------------" << endl;
 
   cin >> difficulty;
   // 예외처리 여기서 중요하지 않기에 생략
 
-  cout << "------------------------------------------" << endl;
-  cout << "       Enter The Number Of Width          " << endl;
-  cout << "------------------------------------------" << endl;
+  cout << "---------------------------------------------------------------------------" << endl;
+  cout << "                         Enter The Number Of Width          " << endl;
+  cout << "---------------------------------------------------------------------------" << endl;
   cin >> width;
-  cout << "------------------------------------------" << endl;
-  cout << "       Enter The Number Of Height         " << endl;
-  cout << "------------------------------------------" << endl;
+  cout << "---------------------------------------------------------------------------" << endl;
+  cout << "                         Enter The Number Of Height         " << endl;
+  cout << "---------------------------------------------------------------------------" << endl;
   cin >> height;
 
   HidatoGenerator Gen = HidatoGenerator();
   Gen.setPuzzleSize(width, height);
   Gen.makePuzzle(difficulty);
 
-  cout << endl;
-  cout << "       " << Gen.width << " x " << Gen.height << " HidatoPuzzle Created       "<< endl;
-  cout << "------------------------------------------" << endl;
+  cout << "---------------------------------------------------------------------------" << endl;
+  cout << "                         " << Gen.width << " x " << Gen.height << " HidatoPuzzle Created       "<< endl;
+  cout << "---------------------------------------------------------------------------" << endl;
   displayPuzz(Gen.puzz ,Gen.width);
   saveInputFile(Gen.puzz, Gen.width);
 }
@@ -49,7 +49,7 @@ GeneratorManager::GeneratorManager(){
 void GeneratorManager::printWall(int w) {
 	int wall_count = (w * 3) + 1;
 	while (wall_count--)
-		cout << "XX";
+		cout << "##";
 	cout << endl;
 }
 
@@ -62,16 +62,16 @@ void GeneratorManager::displayPuzz(int puzz[], int w)
 	{
 		// 값이 -1, 즉 벽일 경우의 출력
 		if (puzz[i] == -1) {
-			cout << "XX";
-			cout << "XXXX";
+			cout << "##";
+			cout << "####";
 			if (i % w == w - 1) {
-				cout << "XX" << endl;
+				cout << "##" << endl;
 				printWall(w);
 			}
 			continue;
 		}
 		// 시작 할 때 하나 찍어주기
-		cout << "XX";
+		cout << "##";
 		// 벽이 아니고 모르는 경우 출력
 		if (puzz[i] == 0) {
 			cout << " ? " << " ";
@@ -86,7 +86,7 @@ void GeneratorManager::displayPuzz(int puzz[], int w)
 		}
 		// 마지막 width일 경우 출력
 		if (i % w == w - 1){
-			cout << "XX";
+			cout << "##";
 			cout << endl;
 			printWall(w);
 		}

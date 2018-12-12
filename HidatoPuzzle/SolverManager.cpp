@@ -29,9 +29,6 @@ SolverManager::SolverManager(string txtFile)
 		// 솔버 생성
 		HidatoSolver solver;
 		// 문제 출력
-		 cout << "-----------------------------------------input puzzle-------------------------------------------------" << endl;
-		 displayPuzz(puzz, w);
-
 		// 솔버가 퍼즐을 풀기위한 전처리 과정
 		solver.preprocessing(puzz, h, w);
 		// 퍼즐풀기
@@ -41,7 +38,9 @@ SolverManager::SolverManager(string txtFile)
 		solver.checkSolution(puzz);
 
 		// // 퍼즐 보여주기
-		 cout << "-----------------------------------------check solution-----------------------------------------------" << endl;
+		cout << "--------------------------------------------------------------------------" << endl;
+		 cout << "                              Check Solution " << endl;
+		 cout << "--------------------------------------------------------------------------" << endl;
 		 displayPuzz(puzz, w);
 	}
 
