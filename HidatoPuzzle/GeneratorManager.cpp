@@ -77,8 +77,11 @@ void GeneratorManager::displayPuzz(int puzz[], int w)
 			cout << " ? " << " ";
 		}
 		else {
-			// 십의 자리일 경우 출력 포멧
-			if ((puzz[i] / 10) >= 1)
+      // 백의 자리일 경우 출력 포멧
+			if ((puzz[i] / 100) >= 1)
+				cout << "" << puzz[i] << " ";
+      // 십의 자리일 경우 출력 포멧
+			else if ((puzz[i] / 10) >= 1)
 				cout << " " << puzz[i] << " ";
 			// 일의 자리일 경우 출력 포멧
 			else
